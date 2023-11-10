@@ -1,3 +1,4 @@
+import 'package:cosmic/core/providers/btm_nav_bar_provider.dart';
 import 'package:cosmic/core/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +16,27 @@ Future<void> main() async {
     providers: [
       ChangeNotifierProvider<ServicesProvider>(
           create: (context) => ServicesProvider()),
+      ChangeNotifierProvider<NavBarProvider>(
+          create: (context) => NavBarProvider()),
     ],
-    child: const MaterialApp(
+    child: const App(),
+  ));
+}
+
+class App extends StatefulWidget {
+  const App({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       onGenerateRoute: RouteGenerator.generateRoute,
       initialRoute: 'splash',
-    ),
-  ));
+    );
+  }
 }

@@ -1,18 +1,46 @@
+// ignore_for_file: use_build_context_synchronously
+
+/*    FutureBuilder(
+            future: servicesProvider.getCurrentUserDoc(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return Text(
+                    'Hello :${servicesProvider.currentUserDoc?['name']}');
+              } else {
+                return const Text('Loading.....');
+              }
+            },
+          ),  */
+
+/*   GestureDetector(
+              onTap: () {
+                servicesProvider.signOut();
+                Navigator.pushReplacementNamed(
+                  context,
+                  'login',
+                );
+              },
+              child: const Icon(Icons.exit_to_app)),
+               */
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+import 'package:cosmic/constants/color_palette.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 
 class ServicesProvider extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final List<String> _docIDs = [];
+  String? docId;
+  Map<String, dynamic>? _currentUserDoc;
 
   //Getters
   FirebaseFirestore? get firestore => _firestore;
   FirebaseAuth? get auth => _auth;
   User? get user => _auth.currentUser;
-  List<String> get docIds => _docIDs;
+  Map<String, dynamic>? get currentUserDoc => _currentUserDoc;
+
 // Firebase Authentication functions
   Future<void> signIn(
       String email, String password, BuildContext context) async {
@@ -20,9 +48,9 @@ class ServicesProvider extends ChangeNotifier {
       showDialog(
           context: context,
           builder: (context) {
-            return const Center(
+            return Center(
               child: CircularProgressIndicator(
-                color: Colors.deepPurple,
+                color: AppColors.accent,
               ),
             );
           });
@@ -31,9 +59,7 @@ class ServicesProvider extends ChangeNotifier {
 
       notifyListeners();
     } on FirebaseAuthException catch (e) {
-      if (kDebugMode) {
-        print(e.message);
-      }
+      debugPrint('Error: ${e.message}');
     }
   }
 
@@ -43,9 +69,7 @@ class ServicesProvider extends ChangeNotifier {
           email: email.trim(), password: password.trim());
       notifyListeners();
     } on FirebaseAuthException catch (e) {
-      if (kDebugMode) {
-        print(e.message);
-      }
+      debugPrint('Error: ${e.message}');
     }
   }
 
@@ -63,10 +87,11 @@ class ServicesProvider extends ChangeNotifier {
           ),
         ),
       );
+      Future.delayed(const Duration(milliseconds: 4000), () {
+        Navigator.pushReplacementNamed(context, 'login');
+      });
     } on FirebaseAuthException catch (e) {
-      if (kDebugMode) {
-        print(e.message);
-      }
+      debugPrint('Error: ${e.message}');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,
@@ -89,73 +114,48 @@ class ServicesProvider extends ChangeNotifier {
 
 // Firebase Cloud firestore functions
   Future<void> storeUserDetails(
-      int age, String email, String fullname, String location) async {
+      {required String email, required String fullname}) async {
     try {
-      await firestore?.collection('Users').add({
-        'age': age,
+      await firestore?.collection('users').add({
         'email': email.trim(),
-        'full name': fullname.trim(),
-        'location': location.trim(),
+        'name': fullname.trim(),
       });
     } on FirebaseException catch (e) {
-      if (kDebugMode) {
-        print(e.message);
-      }
+      debugPrint('Error: ${e.message}');
     }
-  }
-
-  Future<void> getDocId() async {
-    try {
-      var collection = await firestore?.collection('Users').get();
-      if (collection != null) {
-        for (var element in collection.docs) {
-          _docIDs.add(element.reference.id);
-        }
-      }
-    } on FirebaseException catch (e) {
-      if (kDebugMode) {
-        print(e.message);
-      }
-    }
-  }
-
-  getUserDetails(String documentId) {
-    return FutureBuilder(
-      future: firestore?.collection('Users').doc(documentId).get(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data?.data() as Map<String, dynamic>;
-
-          return Text(
-              'First Name : ${data['full name']}\n Nationality: ${data['location']}\n Age:${data['age']}');
-        } else {
-          return const Text('Loading.....');
-        }
-      },
-    );
   }
 
   Future<void> updateUserDetails({
     required String? documentId,
-    int? age,
-    String? email,
-    String? fullname,
-    String? location,
+    required String? fullname,
   }) async {
     try {
+      getCurrentUserDoc();
       if (documentId != null) {
-        await firestore?.collection('Users').doc(documentId).update({
-          'age': age,
-          'email': email?.trim(),
-          'full name': fullname?.trim(),
-          'location': location?.trim(),
+        await firestore?.collection('users').doc(documentId).update({
+          'name': fullname?.trim(),
         });
       }
     } on FirebaseException catch (e) {
-      if (kDebugMode) {
-        print(e.message);
-      }
+      debugPrint('Error: ${e.message}');
     }
+  }
+
+  Future<Map<String, dynamic>?> getCurrentUserDoc() async {
+    try {
+      var collection = await firestore?.collection('users').get();
+      if (collection != null) {
+        for (var element in collection.docs) {
+          if (element['email'] == user?.email) {
+            docId = element.id;
+            _currentUserDoc = element.data();
+            break;
+          }
+        }
+      }
+    } on FirebaseException catch (e) {
+      debugPrint('Error: ${e.message}');
+    }
+    return currentUserDoc;
   }
 }

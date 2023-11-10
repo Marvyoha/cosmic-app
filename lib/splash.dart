@@ -14,9 +14,8 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     // Adding a delay before navigating to the next page
-
     Future.delayed(const Duration(milliseconds: 1700), () {
-      Navigator.pushReplacementNamed(context, 'login');
+      Navigator.pushReplacementNamed(context, 'authChecker');
     });
 
     return Scaffold(

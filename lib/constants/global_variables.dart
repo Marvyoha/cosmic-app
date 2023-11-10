@@ -4,6 +4,10 @@ class GlobalVariables {
   static String logo = 'lib/assets/Cosmic logo.png';
   static String background = 'lib/assets/Cosmic Background.png';
   static String googleLogo = 'lib/assets/google logo.png';
+  static String homeIcon = 'lib/assets/home icon.png';
+  static String favIcon = 'lib/assets/fav icon.png';
+  static String moreIcon = 'lib/assets/more icon.png';
+  static String profileIcon = 'lib/assets/profile icon.png';
 
   static double sizeHeight(BuildContext context) {
     return MediaQuery.of(context).size.height;

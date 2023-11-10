@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants/color_palette.dart';
 import '../../../constants/font_styles.dart';
 import '../../../constants/global_variables.dart';
 import '../../../constants/widgets/image_button.dart';
 import '../../../constants/widgets/main_scaffold.dart.dart';
+import '../../../core/providers/serviceproviders.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/customtextfield.dart';
 
@@ -23,10 +25,39 @@ class _SignUpState extends State<SignUp> {
     TextEditingController passwordController = TextEditingController();
     TextEditingController confirmPasswordController = TextEditingController();
 
+    final servicesProvider =
+        Provider.of<ServicesProvider>(context, listen: false);
+
+    void signUpLogic() {
+      if (passwordController.text == confirmPasswordController.text) {
+        // Create User
+        servicesProvider.signUp(emailController.text, passwordController.text);
+
+        // Add user details in the database  (cloud firestore)
+        servicesProvider.storeUserDetails(
+            email: emailController.text, fullname: nameController.text);
+        servicesProvider.signOut();
+        Navigator.pushReplacementNamed(context, 'login');
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.white,
+            content: Center(
+              child: Text(
+                'Password does not match',
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+          ),
+        );
+      }
+    }
+
     return MainScaffold(
       child: Column(
         children: [
-          GlobalVariables.spaceMedium(context),
+          GlobalVariables.spaceSmall(context),
+          GlobalVariables.spaceSmall(context),
           Image.asset(GlobalVariables.logo),
           GlobalVariables.spaceMedium(context),
           Expanded(
@@ -70,10 +101,7 @@ class _SignUpState extends State<SignUp> {
                       GlobalVariables.spaceSmall(context),
 
                       // SIGN IN BUTTON
-                      AuthButton(
-                        text: 'Sign up',
-                        onPressed: () {},
-                      ),
+                      AuthButton(text: 'Sign up', onPressed: signUpLogic),
                       GlobalVariables.spaceMedium(context),
 
                       // 'OR SIGN IN USING'

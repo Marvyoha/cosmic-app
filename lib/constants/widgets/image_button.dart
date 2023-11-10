@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class ImageButton extends StatelessWidget {
   final void Function()? onTap;
   final String image;
-  const ImageButton({super.key, this.onTap, required this.image});
+
+  const ImageButton({super.key, required this.onTap, required this.image});
 
   @override
   Widget build(BuildContext context) {

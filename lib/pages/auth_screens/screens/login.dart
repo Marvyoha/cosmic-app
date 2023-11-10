@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants/color_palette.dart';
 import '../../../constants/font_styles.dart';
 import '../../../constants/global_variables.dart';
 import '../../../constants/widgets/image_button.dart';
 import '../../../constants/widgets/main_scaffold.dart.dart';
+import '../../../core/providers/serviceproviders.dart';
+
 import '../widgets/accent_button.dart';
 import '../widgets/auth_button.dart';
 import '../widgets/customtextfield.dart';
@@ -19,12 +22,32 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
+    final servicesProvider =
+        Provider.of<ServicesProvider>(context, listen: false);
+
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
+
+    Future<void> loginLogic() async {
+      // Call signIn function from ServicesProvider
+      servicesProvider.signIn(
+          emailController.text, passwordController.text, context);
+      // To check if the user is valid
+      servicesProvider.auth?.authStateChanges().listen((user) {
+        if (user != null) {
+          Navigator.of(context).pop();
+          // Navigate to home
+          Navigator.pushReplacementNamed(
+            context,
+            'mainHub',
+          );
+        }
+      });
+    }
+
     return MainScaffold(
       child: Column(
         children: [
-          GlobalVariables.spaceMedium(context),
           GlobalVariables.spaceMedium(context),
           Image.asset(GlobalVariables.logo),
           GlobalVariables.spaceLarge(context),
@@ -66,7 +89,7 @@ class _LoginState extends State<Login> {
                     // SIGN IN BUTTON
                     AuthButton(
                       text: 'Sign in',
-                      onPressed: () {},
+                      onPressed: loginLogic,
                     ),
                     GlobalVariables.spaceSmall(context),
                     GlobalVariables.spaceSmall(context),
