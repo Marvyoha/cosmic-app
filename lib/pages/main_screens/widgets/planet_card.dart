@@ -4,31 +4,27 @@ import 'package:cosmic/constants/global_variables.dart';
 import 'package:cosmic/pages/main_screens/widgets/planet_showcase.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:provider/provider.dart';
-
-import '../../../core/providers/celestial_provider.dart';
 
 class PlanetCard extends StatelessWidget {
-  String? title;
+  final String? title;
   final String planetName;
   final String planetImage;
   final String planetShortDescription;
   final int index;
-  final bool isfavourPage;
 
-  PlanetCard(
-      {super.key,
-      this.title,
-      required this.planetName,
-      required this.planetShortDescription,
-      required this.planetImage,
-      required this.index,
-      this.isfavourPage = false});
+  const PlanetCard({
+    super.key,
+    this.title,
+    required this.planetName,
+    required this.planetShortDescription,
+    required this.planetImage,
+    required this.index,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final infoProvider =
-        Provider.of<CelestialBodiesProvider>(context, listen: true);
+    // final infoProvider =
+    //     Provider.of<CelestialBodiesProvider>(context, listen: true);
     return Container(
       decoration: GlobalVariables.cardDecor,
       child: Padding(
@@ -36,12 +32,10 @@ class PlanetCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            isfavourPage
-                ? Container()
-                : Text(
-                    title!,
-                    style: FontStyles.cardHeader,
-                  ),
+            Text(
+              title!,
+              style: FontStyles.cardHeader,
+            ),
             GlobalVariables.spaceSmall(context),
             GlobalVariables.spaceSmall(context),
             Row(
@@ -58,42 +52,11 @@ class PlanetCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    isfavourPage
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                planetName,
-                                style: FontStyles.cardHeader
-                                    .copyWith(color: AppColors.accent),
-                              ),
-                              IconButton(
-                                  onPressed: () {
-                                    if (!infoProvider.favourites.contains(
-                                        infoProvider.celestialBodies![index])) {
-                                      context
-                                          .read<CelestialBodiesProvider>()
-                                          .addFavourites(index);
-                                    } else {
-                                      context
-                                          .read<CelestialBodiesProvider>()
-                                          .removeFavourites(index);
-                                    }
-                                  },
-                                  icon: Icon(
-                                    infoProvider.favourites.contains(
-                                            infoProvider
-                                                .celestialBodies![index])
-                                        ? Icons.favorite
-                                        : Icons.favorite_outline,
-                                  ))
-                            ],
-                          )
-                        : Text(
-                            planetName,
-                            style: FontStyles.cardHeader
-                                .copyWith(color: AppColors.accent),
-                          ),
+                    Text(
+                      planetName,
+                      style: FontStyles.cardHeader
+                          .copyWith(color: AppColors.accent),
+                    ),
                     GlobalVariables.spaceSmall(context),
                     SizedBox(
                       width: 200,

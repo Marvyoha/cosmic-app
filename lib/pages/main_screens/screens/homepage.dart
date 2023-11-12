@@ -10,7 +10,6 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/providers/celestial_provider.dart';
 import '../widgets/planet_showcase.dart';
 
 class HomePage extends StatefulWidget {

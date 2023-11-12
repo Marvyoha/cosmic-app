@@ -1,25 +1,58 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 Random random = Random();
 
 // Get a random index within the range of the celestialBodies list
 int randomIndex = random.nextInt(10);
 
+CelestialBodiesProvider cele = CelestialBodiesProvider();
 // Get the random celestial body using the random index
-Map randomCelestialBody = allBodies[randomIndex];
+Map randomCelestialBody = cele._celestialBodies[randomIndex];
 
-List<Map> allBodies = [
-  sun,
-  mercury,
-  venus,
-  earth,
-  mars,
-  jupiter,
-  saturn,
-  uranus,
-  neptune,
-  pluto,
-];
+class CelestialBodiesProvider with ChangeNotifier {
+  final Box _mybox = Hive.box('myBox');
+
+  List _celestialBodies = [];
+
+  List? get celestialBodies => _celestialBodies;
+
+  CelestialBodiesProvider() {
+    loadData();
+  }
+  void addFavourites(index) {
+    _celestialBodies[index]['isFavorited'] = true;
+    _mybox.put('CelestialBodies', _celestialBodies);
+
+    notifyListeners();
+  }
+
+  void removeFavourites(index) {
+    _celestialBodies[index]['isFavorited'] = false;
+    _mybox.put('CelestialBodies', _celestialBodies);
+    notifyListeners();
+  }
+
+  void loadData() {
+    if (_mybox.get('CelestialBodies').isEmpty) {
+      _celestialBodies = [
+        sun,
+        mercury,
+        venus,
+        earth,
+        mars,
+        jupiter,
+        saturn,
+        uranus,
+        neptune,
+        pluto,
+      ];
+    } else {
+      _celestialBodies = _mybox.get('CelestialBodies');
+    }
+  }
+}
 
 String solarSystemInfo = """
 The solar system consists of the Sun and everything that orbits around it, including planets, dwarf planets, moons, asteroids, comets and meteoroids. At the center lies the Sun, a yellow main-sequence star that provides light, heat and energy to the rest of the solar system. Orbiting at an average distance of 150 million kilometers is the planet Mercury, the smallest and fastest planet, completing three rotations around the Sun every two years. Venus is the second planet and the hottest in the solar system due to its dense carbon dioxide atmosphere trapping heat. Earth, the third planet, is unique in harbouring life and liquid water on its surface. The Red Planet Mars has a thin atmosphere and two small moons - Phobos and Deimos. In the outer solar system lie the four gas and ice giants - Jupiter, Saturn, Uranus and Neptune. Jupiter is the largest planet, containing two and a half times the matter of all other planets combined. Its four largest moons Io, Europa, Ganymede and Callisto were discovered by Galileo Galilei in 1610. 

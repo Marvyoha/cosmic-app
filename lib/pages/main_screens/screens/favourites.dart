@@ -1,9 +1,8 @@
 import 'package:cosmic/constants/widgets/main_scaffold.dart.dart';
-import 'package:cosmic/core/providers/celestial_provider.dart';
-import 'package:cosmic/pages/main_screens/widgets/mainhub_appbar.dart';
-import 'package:cosmic/pages/main_screens/widgets/planet_card.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import '../widgets/planet_card.dart';
 
 class Favourites extends StatefulWidget {
   const Favourites({super.key});
@@ -13,31 +12,52 @@ class Favourites extends StatefulWidget {
 }
 
 class _FavouritesState extends State<Favourites> {
+  List<Map<String, dynamic>> favored = [];
+  late int ogIndex;
+  @override
+  void initState() {
+    super.initState();
+
+    Box mybox = Hive.box('myBox');
+    List<Map<String, dynamic>> bodies = mybox.get('CelestialBodies');
+
+    for (var celestialBody in bodies) {
+      if (celestialBody['isFavorited'] == true) {
+        // Add to favored list as a Map
+        favored.add({
+          'name': celestialBody['name'],
+          'shortDescription': celestialBody['shortDescription'],
+          'image': celestialBody['image'],
+        });
+      }
+    }
+
+    int getIndexFromCelestialBodies() {
+      for (var i = 0; i < favored.length; i++) {
+        var favoredName = favored[i]['name'];
+        for (var j = 0; j < bodies.length; j++) {
+          if (bodies[j]['name'] == favoredName) {
+            return ogIndex = j;
+          }
+        }
+      }
+      return -1;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var infoProvider = Provider.of<CelestialBodiesProvider>(context);
-    return MainScaffold(
-      child: Column(
-        children: [
-          const MainHubAppBar(
-            text: 'Favourites',
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: infoProvider.favourites.length,
-              itemBuilder: (BuildContext context, int index) {
-                return PlanetCard(
-                    isfavourPage: true,
-                    planetName: infoProvider.favourites[index]['name'],
-                    planetShortDescription: infoProvider.favourites[index]
-                        ['shortDescription'],
-                    planetImage: infoProvider.favourites[index]['image'],
-                    index: index);
-              },
-            ),
-          ),
-        ],
-      ),
+    return ListView.builder(
+      itemCount: favored.length,
+      itemBuilder: (BuildContext context, int index) {
+        // Access Map keys
+        return PlanetCard(
+          index: ogIndex,
+          planetName: favored[index]['name'],
+          planetShortDescription: favored[index]['shortDescription'],
+          planetImage: favored[index]['image'],
+        );
+      },
     );
   }
 }

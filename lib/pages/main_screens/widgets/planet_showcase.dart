@@ -5,7 +5,7 @@ import 'package:cosmic/constants/widgets/main_scaffold.dart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/providers/celestial_provider.dart';
+import '../../../data/celestial_bodies_info.dart';
 
 class PlanetShowcase extends StatelessWidget {
   final int index;
@@ -88,15 +88,11 @@ class PlanetShowcase extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (!infoProvider.favourites
-                          .contains(infoProvider.celestialBodies![index])) {
-                        context
-                            .read<CelestialBodiesProvider>()
-                            .addFavourites(index);
+                      if (infoProvider.celestialBodies?[index]['isFavorited'] ==
+                          true) {
+                        infoProvider.removeFavourites(index);
                       } else {
-                        context
-                            .read<CelestialBodiesProvider>()
-                            .removeFavourites(index);
+                        infoProvider.addFavourites(index);
                       }
                     },
                     child: Container(
@@ -111,8 +107,7 @@ class PlanetShowcase extends StatelessWidget {
                         maxRadius: 40,
                         minRadius: 30,
                         child: Icon(
-                          infoProvider.favourites.contains(
-                                  infoProvider.celestialBodies![index])
+                          infoProvider.celestialBodies?[index]['isFavorited']
                               ? Icons.favorite
                               : Icons.favorite_outline,
                           size: 30,

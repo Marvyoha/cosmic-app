@@ -1,34 +1,35 @@
-import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+// import 'package:flutter/material.dart';
+// import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../data/celestial_bodies_info.dart';
+// import '../../data/celestial_bodies_info.dart';
 
-class CelestialBodiesProvider with ChangeNotifier {
-  List<Map<dynamic, dynamic>> _favourites = [];
-  final List<Map<dynamic, dynamic>> _celestialBodies = allBodies;
-  final _mybox = Hive.box('myBox');
+// class CelestialBodiesProvider with ChangeNotifier {
+//   final Box _mybox = Hive.box('myBox');
 
+//   final List<Map<dynamic, dynamic>> _celestialBodies = [
+//     sun,
+//     mercury,
+//     venus,
+//     earth,
+//     mars,
+//     jupiter,
+//     saturn,
+//     uranus,
+//     neptune,
+//     pluto,
+//   ];
 
-  List<Map<dynamic, dynamic>> get favourites => _favourites;
-  List<Map<dynamic, dynamic>>? get celestialBodies => _celestialBodies;
+//   List<Map<dynamic, dynamic>>? get celestialBodies => _celestialBodies;
 
-  void addFavourites(index) {
-    _favourites.add(_celestialBodies[index]);
-    updateData();
-    notifyListeners();
-  }
+//   void addFavourites(index) {
+//     _celestialBodies[index]['isFavorited'] = true;
+//     _mybox.put('CelestialBodies', _celestialBodies);
+//     notifyListeners();
+//   }
 
-  void removeFavourites(index) {
-    _favourites.remove(_celestialBodies[index]);
-    updateData();
-    notifyListeners();
-  }
-
-  void updateData() {
-    _mybox.put('CelestialBodies', _celestialBodies);
-  }
-
-  void loadData() {
-    _favourites = _mybox.get('CelestialBodies');
-  }
-}
+//   void removeFavourites(index) {
+//     _celestialBodies[index]['isFavorited'] = false;
+//     _mybox.put('CelestialBodies', _celestialBodies);
+//     notifyListeners();
+//   }
+// }

@@ -6,8 +6,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'core/providers/celestial_provider.dart';
 import 'core/providers/serviceproviders.dart';
+import 'data/celestial_bodies_info.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
