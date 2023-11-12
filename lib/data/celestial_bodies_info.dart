@@ -1,12 +1,14 @@
-/* KEYPOINTS:
-Mass(10^24 Kg)
-Distance from the sun (10^6 km)
-Diameter of the body(km)
-Gravity(relative to earth)
-Average Temparature(celcius)
-*/
+import 'dart:math';
 
-List<Map> celestialBodies = [
+Random random = Random();
+
+// Get a random index within the range of the celestialBodies list
+int randomIndex = random.nextInt(10);
+
+// Get the random celestial body using the random index
+Map randomCelestialBody = allBodies[randomIndex];
+
+List<Map> allBodies = [
   sun,
   mercury,
   venus,
@@ -30,15 +32,14 @@ The solar system likely formed about 4.6 billion years ago from a giant rotating
 // Sun
 Map sun = {
   "name": "Sun",
-  "moons": 0,
-  "mass": 1988500,
-  "distanceFromSun": 0,
-  "diameter": 1392700,
-  "gravity": 28,
-  "lengthOfDay": 607.76,
-  "avgTemperature": 5505,
-  "smallImage": "",
-  "largeImage": "",
+  "moons": "0",
+  "mass": "1988500",
+  "distanceFromSun": "0",
+  "diameter": "1392700",
+  "gravity": "28",
+  "lengthOfDay": "607.76",
+  "avgTemperature": "5505",
+  "image": "lib/assets/planets/sun.png",
   "isFavorited": false,
   "shortDescription": "The star at the center of our Solar System",
   "longDescription":
@@ -48,15 +49,14 @@ Map sun = {
 // Mercury
 Map mercury = {
   "name": "Mercury",
-  "moons": 0,
-  "mass": 0.330,
-  "distanceFromSun": 57.9,
-  "diameter": 4879,
-  "gravity": 0.38,
-  "lengthOfDay": 4222.6,
-  "avgTemperature": 167,
-  "smallImage": "",
-  "largeImage": "",
+  "moons": "0",
+  "mass": "0.330",
+  "distanceFromSun": "57.9",
+  "diameter": "4879",
+  "gravity": "0.38",
+  "lengthOfDay": "4222.6",
+  "avgTemperature": "167",
+  "image": "lib/assets/planets/mercury.png",
   "isFavorited": false,
   "shortDescription": "The smallest and fastest planet, nearest the Sun",
   "longDescription":
@@ -66,15 +66,14 @@ Map mercury = {
 // Venus
 Map venus = {
   "name": "Venus",
-  "moons": 0,
-  "mass": 4.87,
-  "distanceFromSun": 108.2,
-  "diameter": 12104,
-  "gravity": 0.91,
-  "lengthOfDay": 2802,
-  "avgTemperature": 464,
-  "smallImage": "",
-  "largeImage": "",
+  "moons": "0",
+  "mass": "4.87",
+  "distanceFromSun": "108.2",
+  "diameter": "12104",
+  "gravity": "0.91",
+  "lengthOfDay": "2802",
+  "avgTemperature": "464",
+  "image": "lib/assets/planets/venus.png",
   "isFavorited": false,
   "shortDescription":
       "Hottest planet due to the greenhouse effect of its dense atmosphere",
@@ -85,15 +84,14 @@ Map venus = {
 // Earth
 Map earth = {
   "name": "Earth",
-  "moons": 1,
-  "mass": 5.97,
-  "distanceFromSun": 149.6,
-  "diameter": 12756,
-  "gravity": 1,
-  "lengthOfDay": 24,
-  "avgTemperature": 15,
-  "smallImage": "",
-  "largeImage": "",
+  "moons": "1",
+  "mass": "5.97",
+  "distanceFromSun": "149.6",
+  "diameter": "12756",
+  "gravity": "1",
+  "lengthOfDay": "24",
+  "avgTemperature": "15",
+  "image": "lib/assets/planets/earth.png",
   "isFavorited": false,
   "shortDescription": "Our home planet, the only known planet to harbour life",
   "longDescription":
@@ -103,15 +101,14 @@ Map earth = {
 // Mars
 Map mars = {
   "name": "Mars",
-  "moons": 2,
-  "mass": 0.642,
-  "distanceFromSun": 227.9,
-  "diameter": 6792,
-  "gravity": 0.38,
-  "lengthOfDay": 24.7,
-  "avgTemperature": -65,
-  "smallImage": "",
-  "largeImage": "",
+  "moons": "2",
+  "mass": "0.642",
+  "distanceFromSun": "227.9",
+  "diameter": "6792",
+  "gravity": "0.38",
+  "lengthOfDay": "24.7",
+  "avgTemperature": "-65",
+  "image": "lib/assets/planets/mars.png",
   "isFavorited": false,
   "shortDescription":
       "The red planet, site of many robotic exploration missions paving the way for human exploration",
@@ -122,15 +119,14 @@ Map mars = {
 // Jupiter
 Map jupiter = {
   "name": "Jupiter",
-  "moons": 79,
-  "mass": 1898,
-  "distanceFromSun": 778.6,
-  "diameter": 142984,
-  "gravity": 2.54,
-  "lengthOfDay": 9.9,
-  "avgTemperature": -110,
-  "smallImage": "",
-  "largeImage": "",
+  "moons": "79",
+  "mass": "1898",
+  "distanceFromSun": "778.6",
+  "diameter": "142984",
+  "gravity": "2.54",
+  "lengthOfDay": "9.9",
+  "avgTemperature": "-110",
+  "image": "lib/assets/planets/juipter.png",
   "isFavorited": false,
   "shortDescription":
       "The largest planet, dominated by colorful cloud bands and the Great Red Spot",
@@ -141,15 +137,14 @@ Map jupiter = {
 // Saturn
 Map saturn = {
   "name": "Saturn",
-  "moons": 82,
-  "mass": 568,
-  "distanceFromSun": 1433.5,
-  "diameter": 120536,
-  "gravity": 1.06,
-  "lengthOfDay": 10.7,
-  "avgTemperature": -140,
-  "smallImage": "",
-  "largeImage": "",
+  "moons": "82",
+  "mass": "568",
+  "distanceFromSun": "1433.5",
+  "diameter": "120536",
+  "gravity": "1.06",
+  "lengthOfDay": "10.7",
+  "avgTemperature": "-140",
+  "image": "lib/assets/planets/saturn.png",
   "isFavorited": false,
   "shortDescription":
       "Adorned with thousands of beautiful rings mainly composed of ice particles",
@@ -160,15 +155,14 @@ Map saturn = {
 // Uranus
 Map uranus = {
   "name": "Uranus",
-  "moons": 27,
-  "mass": 86.8,
-  "distanceFromSun": 2872.5,
-  "diameter": 51118,
-  "gravity": 0.92,
-  "lengthOfDay": 17.2,
-  "avgTemperature": -195,
-  "smallImage": "",
-  "largeImage": "",
+  "moons": "27",
+  "mass": "86.8",
+  "distanceFromSun": "2872.5",
+  "diameter": "51118",
+  "gravity": "0.92",
+  "lengthOfDay": "17.2",
+  "avgTemperature": "-195",
+  "image": "lib/assets/planets/uranus.png",
   "isFavorited": false,
   "shortDescription":
       "An ice giant planet tilted on its side orbiting the Sun once every 84 years",
@@ -179,15 +173,14 @@ Map uranus = {
 // Neptune
 Map neptune = {
   "name": "Neptune",
-  "moons": 14,
-  "mass": 102,
-  "distanceFromSun": 4495.1,
-  "diameter": 49528,
-  "gravity": 1.14,
-  "lengthOfDay": 16.1,
-  "avgTemperature": -200,
-  "smallImage": "",
-  "largeImage": "",
+  "moons": "14",
+  "mass": "102",
+  "distanceFromSun": "4495.1",
+  "diameter": "49528",
+  "gravity": "1.14",
+  "lengthOfDay": "16.1",
+  "avgTemperature": "-200",
+  "image": "lib/assets/planets/neptune.png",
   "isFavorited": false,
   "shortDescription":
       "A frigid gas giant with a dark blue atmosphere streaked by white clouds",
@@ -198,15 +191,14 @@ Map neptune = {
 // Pluto
 Map pluto = {
   "name": "Pluto",
-  "moons": 5,
-  "mass": 0.0146,
-  "distanceFromSun": 5906.4,
-  "diameter": 2370,
-  "gravity": 0.06,
-  "lengthOfDay": 153.3,
-  "avgTemperature": -225,
-  "smallImage": "",
-  "largeImage": "",
+  "moons": "5",
+  "mass": "0.0146",
+  "distanceFromSun": "5906.4",
+  "diameter": "2370",
+  "gravity": "0.06",
+  "lengthOfDay": "153.3",
+  "avgTemperature": "-225",
+  "image": "lib/assets/planets/pluto.png",
   "isFavorited": false,
   "shortDescription":
       "A dwarf planet with mountain ranges, valleys, craters and possibly an underground ocean",

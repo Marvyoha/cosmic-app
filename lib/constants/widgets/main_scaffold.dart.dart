@@ -4,7 +4,9 @@ import '../global_variables.dart';
 
 class MainScaffold extends StatelessWidget {
   final Widget child;
-  const MainScaffold({super.key, required this.child});
+  final bool notMainPage;
+  const MainScaffold(
+      {super.key, required this.child, this.notMainPage = false});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,13 @@ class MainScaffold extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          child: SafeArea(child: child),
+          child: SafeArea(
+              child: Padding(
+            padding: notMainPage
+                ? const EdgeInsets.only(bottom: 0)
+                : const EdgeInsets.only(bottom: 70),
+            child: child,
+          )),
         ),
       ),
     );

@@ -43,11 +43,16 @@ dependencies:
   firebase_auth: ^4.13.0
   cloud_firestore: ^4.13.0
   provider: ^6.1.0
-
+  auto_size_text: ^3.0.0
+  expandable_text: ^2.3.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  hive_generator:
+  build_runner:
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -62,6 +67,8 @@ dev_dependencies:
 flutter:
   assets:
     - lib/assets/
+    - lib/assets/planets/
+    - lib/assets/planet icons/
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

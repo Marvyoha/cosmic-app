@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'color_palette.dart';
+
 class GlobalVariables {
   static String logo = 'lib/assets/Cosmic logo.png';
   static String background = 'lib/assets/Cosmic Background.png';
@@ -45,4 +47,12 @@ class GlobalVariables {
       topRight: Radius.circular(40),
     ),
   );
+
+  static BoxDecoration cardDecor = BoxDecoration(
+      borderRadius: BorderRadius.circular(40),
+      color: AppColors.elevation.withOpacity(0.67));
+
+  static EdgeInsets cardPadding = const EdgeInsets.all(30.0);
+
+  static EdgeInsetsGeometry normPadding = const EdgeInsets.all(15);
 }

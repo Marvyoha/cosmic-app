@@ -2,6 +2,7 @@ import 'package:cosmic/constants/color_palette.dart';
 import 'package:cosmic/constants/widgets/main_scaffold.dart.dart';
 import 'package:cosmic/pages/auth_screens/widgets/customtextfield.dart';
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants/font_styles.dart';
@@ -41,22 +42,21 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    radius: 30,
-                    child: Container(
-                        width: 53,
-                        padding: const EdgeInsets.all(7),
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 2, color: Colors.black),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Center(
-                          child: Icon(
-                            Icons.chevron_left,
-                            size: 35,
-                          ),
-                        )),
+                  child: Container(
+                    width: 60,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 2, color: Colors.black),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      maxRadius: 40,
+                      minRadius: 30,
+                      child: Icon(
+                        Icons.chevron_left,
+                        size: 50,
+                      ),
+                    ),
                   ),
                 ),
                 GlobalVariables.spaceMedium(context, isWidth: true),
@@ -73,55 +73,63 @@ class _ProfilePageState extends State<ProfilePage> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
-                              backgroundColor: Colors.black.withOpacity(0.5),
-                              content: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(40)),
-                                height: 150,
-                                child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'You really want to log out?',
-                                        style: FontStyles.headerMedium,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          GlobalVariables.spaceMedium(context,
-                                              isWidth: true),
-                                          GlobalVariables.spaceMedium(context,
-                                              isWidth: true),
-                                          TextButton(
-                                              onPressed: () {
-                                                servicesProvider.signOut();
-                                                Navigator.pushReplacementNamed(
-                                                  context,
-                                                  'login',
-                                                );
-                                              },
-                                              child: Text(
-                                                'Yes',
-                                                style: FontStyles.headerSmall
-                                                    .copyWith(
-                                                        color: AppColors.error),
-                                              )),
-                                          const SizedBox(width: 6),
-                                          TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text('Cancel',
+                            return Container(
+                              color: Colors.transparent,
+                              child: AlertDialog(
+                                backgroundColor: Colors.transparent,
+                                content: Container(
+                                  padding: const EdgeInsets.all(30),
+                                  decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(40)),
+                                  height: 200,
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'You really want to log out?',
+                                          style: FontStyles.headerMedium,
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            GlobalVariables.spaceMedium(context,
+                                                isWidth: true),
+                                            GlobalVariables.spaceMedium(context,
+                                                isWidth: true),
+                                            TextButton(
+                                                onPressed: () {
+                                                  servicesProvider.signOut();
+                                                  Navigator
+                                                      .pushReplacementNamed(
+                                                    context,
+                                                    'login',
+                                                  );
+                                                },
+                                                child: Text(
+                                                  'Yes',
                                                   style: FontStyles.headerSmall
                                                       .copyWith(
-                                                          color: AppColors
-                                                              .accent)))
-                                        ],
-                                      )
-                                    ]),
+                                                          color:
+                                                              AppColors.error),
+                                                )),
+                                            const SizedBox(width: 6),
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('Cancel',
+                                                    style: FontStyles
+                                                        .headerSmall
+                                                        .copyWith(
+                                                            color: AppColors
+                                                                .accent)))
+                                          ],
+                                        )
+                                      ]),
+                                ),
                               ),
                             );
                           },
@@ -191,71 +199,79 @@ class _ProfilePageState extends State<ProfilePage> {
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        backgroundColor:
-                                            Colors.black.withOpacity(0.5),
-                                        content: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(40)),
-                                          height: 150,
-                                          child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                CustomTextField(
-                                                  text: 'Update your name',
-                                                  controller:
-                                                      updatedNameController,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    GlobalVariables.spaceMedium(
-                                                        context,
-                                                        isWidth: true),
-                                                    GlobalVariables.spaceMedium(
-                                                        context,
-                                                        isWidth: true),
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          servicesProvider
-                                                              .updateUserDetails(
-                                                                  fullname:
-                                                                      updatedNameController
-                                                                          .text,
-                                                                  documentId:
-                                                                      servicesProvider
-                                                                          .docId);
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: Text(
-                                                          'Edit',
-                                                          style: FontStyles
-                                                              .headerSmall
-                                                              .copyWith(
-                                                                  color: AppColors
-                                                                      .accent),
-                                                        )),
-                                                    const SizedBox(width: 6),
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                        },
-                                                        child: Text('Cancel',
+                                      return
+                                          // THIS CONTAINER IS TO NOT ALLOW POPPING WHEN EMPTY SPACE IS PRESSED
+                                          Container(
+                                        decoration: const BoxDecoration(
+                                          color: Colors.transparent,
+                                        ),
+                                        child: AlertDialog(
+                                          backgroundColor: Colors.transparent,
+                                          content: Container(
+                                            padding: const EdgeInsets.all(30),
+                                            decoration: BoxDecoration(
+                                                color: Colors.black
+                                                    .withOpacity(0.5),
+                                                borderRadius:
+                                                    BorderRadius.circular(40)),
+                                            height: 200,
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  CustomTextField(
+                                                    text: 'Update your name',
+                                                    controller:
+                                                        updatedNameController,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      GlobalVariables
+                                                          .spaceMedium(context,
+                                                              isWidth: true),
+                                                      GlobalVariables
+                                                          .spaceMedium(context,
+                                                              isWidth: true),
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            servicesProvider.updateUserDetails(
+                                                                fullname:
+                                                                    updatedNameController
+                                                                        .text,
+                                                                documentId:
+                                                                    servicesProvider
+                                                                        .docId);
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text(
+                                                            'Edit',
                                                             style: FontStyles
                                                                 .headerSmall
                                                                 .copyWith(
                                                                     color: AppColors
-                                                                        .active)))
-                                                  ],
-                                                )
-                                              ]),
+                                                                        .accent),
+                                                          )),
+                                                      const SizedBox(width: 6),
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: Text('Cancel',
+                                                              style: FontStyles
+                                                                  .headerSmall
+                                                                  .copyWith(
+                                                                      color: AppColors
+                                                                          .active)))
+                                                    ],
+                                                  )
+                                                ]),
+                                          ),
                                         ),
                                       );
                                     },
@@ -281,10 +297,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     Radius.circular(26),
                   ),
                 ),
-                child: const Column(
+                child: Column(
                   children: [
-                    CircularProgressIndicator(
-                      value: 0.4,
+                    CircularPercentIndicator(
+                      radius: 40,
+                      progressColor: AppColors.altColor,
+                      animation: true,
+                      percent: 0.6,
                     )
                   ],
                 ),

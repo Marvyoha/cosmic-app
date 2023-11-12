@@ -23,6 +23,7 @@ class _MainHubState extends State<MainHub> {
       builder: (context, pageProvider, child) => Scaffold(
         body: Stack(
           alignment: Alignment.bottomCenter,
+          fit: StackFit.passthrough,
           children: [pageList[pageProvider.pageIndex], const BtmNvBr()],
         ),
       ),

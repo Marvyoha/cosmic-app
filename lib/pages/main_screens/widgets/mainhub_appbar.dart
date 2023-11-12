@@ -3,8 +3,11 @@ import 'package:cosmic/constants/global_variables.dart';
 import 'package:flutter/material.dart';
 
 class MainHubAppBar extends StatelessWidget {
-  final String text;
-  const MainHubAppBar({super.key, required this.text});
+  final String? text;
+  final String? image;
+  final bool isImage;
+  const MainHubAppBar({Key? key, this.text, this.image, this.isImage = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,10 +27,17 @@ class MainHubAppBar extends StatelessWidget {
               radius: 26,
             ),
             GlobalVariables.spaceMedium(context, isWidth: true),
-            Text(
-              text,
-              style: FontStyles.headerLarge,
-            ),
+            isImage
+                ? SizedBox(
+                    width: 180,
+                    child: Image.asset(
+                      image!,
+                    ),
+                  )
+                : Text(
+                    text!,
+                    style: FontStyles.headerLarge,
+                  ),
             GlobalVariables.spaceMedium(context, isWidth: true),
             GestureDetector(
               onTap: () {

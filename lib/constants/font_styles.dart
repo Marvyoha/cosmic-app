@@ -20,6 +20,11 @@ class FontStyles {
     fontWeight: FontWeight.w800,
   );
 
+  static TextStyle cardHeader = FontStyles.headerSmall.copyWith(fontSize: 20);
+
+  static TextStyle cardSubtitle = FontStyles.bodyMedium
+      .copyWith(color: Colors.white, fontWeight: FontWeight.normal);
+
   static TextStyle hintText = const TextStyle(
     color: Colors.white,
     fontSize: 17,
