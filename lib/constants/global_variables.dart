@@ -10,6 +10,7 @@ class GlobalVariables {
   static String favIcon = 'lib/assets/fav icon.png';
   static String moreIcon = 'lib/assets/more icon.png';
   static String profileIcon = 'lib/assets/profile icon.png';
+  static String noFavorites = 'lib/assets/Astronaut icon.png';
 
   static double sizeHeight(BuildContext context) {
     return MediaQuery.of(context).size.height;

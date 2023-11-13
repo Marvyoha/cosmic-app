@@ -13,7 +13,8 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  var box = await Hive.openBox('myBox');
+
+  var hive = await Hive.openBox('db');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

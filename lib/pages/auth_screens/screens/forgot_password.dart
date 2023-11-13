@@ -20,6 +20,7 @@ class ForgotPassword extends StatelessWidget {
     TextEditingController emailController = TextEditingController();
 
     return MainScaffold(
+      notMainPage: true,
       child: Column(
         children: [
           Row(

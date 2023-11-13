@@ -46,6 +46,7 @@ class _LoginState extends State<Login> {
     }
 
     return MainScaffold(
+      notMainPage: true,
       child: Column(
         children: [
           GlobalVariables.spaceMedium(context),

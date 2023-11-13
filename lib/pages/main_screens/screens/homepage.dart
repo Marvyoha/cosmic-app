@@ -40,15 +40,16 @@ class _HomePageState extends State<HomePage> {
               child: Padding(
                 padding: GlobalVariables.normPadding,
                 child: ListView.builder(
-                  itemCount: infoProvider.celestialBodies!.length,
+                  itemCount: infoProvider.celestialBodies.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (BuildContext context, int index) {
+                    int id = infoProvider.celestialBodies[index]['id'];
                     return GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => PlanetShowcase(
-                              index: index,
+                              index: id,
                             ),
                           ),
                         );
@@ -64,15 +65,15 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               CircleAvatar(
                                 backgroundColor: Colors.transparent,
-                                child: Image.asset(infoProvider
-                                    .celestialBodies![index]['image']),
+                                child: Image.asset(
+                                    infoProvider.celestialBodies[id]['image']),
                               ),
                               GlobalVariables.spaceSmall(context,
                                   isWidth: true),
                               GlobalVariables.spaceSmall(context,
                                   isWidth: true),
                               Text(
-                                infoProvider.celestialBodies![index]['name'],
+                                infoProvider.celestialBodies[id]['name'],
                                 style: FontStyles.headerSmall,
                               )
                             ],
@@ -89,7 +90,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(15, 0, 15, 15),
             child: PlanetCard(
-                index: randomIndex,
+                index: randomID,
                 title: 'Random Celestial Body',
                 planetName: randomCelestialBody['name'],
                 planetImage: randomCelestialBody['image'],

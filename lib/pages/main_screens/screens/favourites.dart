@@ -1,61 +1,80 @@
+import 'package:cosmic/constants/font_styles.dart';
+import 'package:cosmic/constants/global_variables.dart';
 import 'package:cosmic/constants/widgets/main_scaffold.dart.dart';
+import 'package:cosmic/data/celestial_bodies_info.dart';
+import 'package:cosmic/pages/main_screens/widgets/favorite_planet_card.dart';
+import 'package:cosmic/pages/main_screens/widgets/mainhub_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 
-import '../widgets/planet_card.dart';
-
-class Favourites extends StatefulWidget {
-  const Favourites({super.key});
-
-  @override
-  State<Favourites> createState() => _FavouritesState();
-}
-
-class _FavouritesState extends State<Favourites> {
-  List<Map<String, dynamic>> favored = [];
-  late int ogIndex;
-  @override
-  void initState() {
-    super.initState();
-
-    Box mybox = Hive.box('myBox');
-    List<Map<String, dynamic>> bodies = mybox.get('CelestialBodies');
-
-    for (var celestialBody in bodies) {
-      if (celestialBody['isFavorited'] == true) {
-        // Add to favored list as a Map
-        favored.add({
-          'name': celestialBody['name'],
-          'shortDescription': celestialBody['shortDescription'],
-          'image': celestialBody['image'],
-        });
-      }
-    }
-
-    int getIndexFromCelestialBodies() {
-      for (var i = 0; i < favored.length; i++) {
-        var favoredName = favored[i]['name'];
-        for (var j = 0; j < bodies.length; j++) {
-          if (bodies[j]['name'] == favoredName) {
-            return ogIndex = j;
-          }
-        }
-      }
-      return -1;
-    }
-  }
+class Favourites extends StatelessWidget {
+  const Favourites({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: favored.length,
-      itemBuilder: (BuildContext context, int index) {
-        // Access Map keys
-        return PlanetCard(
-          index: ogIndex,
-          planetName: favored[index]['name'],
-          planetShortDescription: favored[index]['shortDescription'],
-          planetImage: favored[index]['image'],
+    return Consumer<CelestialBodiesProvider>(
+      builder: (context, infoProvider, child) {
+        bool checkFavorites() {
+          if (infoProvider.getFavorites().isEmpty) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+
+        bool? noFavorite = checkFavorites();
+
+        return MainScaffold(
+          child: Column(children: [
+            const MainHubAppBar(
+              text: 'Favourites',
+            ),
+            GlobalVariables.spaceMedium(context),
+            noFavorite
+                ? Column(
+                    children: [
+                      SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: Image.asset(
+                            GlobalVariables.noFavorites,
+                          )),
+                      Text(
+                        'Go and Explore,\nno items favorited',
+                        textAlign: TextAlign.center,
+                        style: FontStyles.headerMedium,
+                      )
+                    ],
+                  )
+                : Expanded(
+                    child: ListView.builder(
+                      itemCount: infoProvider.getFavorites().length,
+                      itemBuilder: (context, index) {
+                        int id = infoProvider.getFavorites()[index]['id'];
+
+                        if (infoProvider.celestialBodies[id]['isFavorited'] ==
+                            true) {
+                          return Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: FavoritePlanetCard(
+                              planetName: infoProvider.celestialBodies[id]
+                                  ['name'],
+                              planetShortDescription: infoProvider
+                                  .celestialBodies[id]['shortDescription'],
+                              planetImage: infoProvider.celestialBodies[id]
+                                  ['image'],
+                              index: id,
+                            ),
+                          );
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      },
+                    ),
+                  )
+          ]),
         );
       },
     );

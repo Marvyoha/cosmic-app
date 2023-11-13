@@ -19,37 +19,37 @@ class PlanetShowcase extends StatelessWidget {
       [
         'lib/assets/planet icons/mass icon.png',
         'Mass (10^24 kg)',
-        infoProvider.celestialBodies![index]['mass'],
+        infoProvider.celestialBodies[index]['mass'],
       ],
       [
         'lib/assets/planet icons/gravity icon.png',
         'Gravity(relative to earth)',
-        infoProvider.celestialBodies![index]['gravity'],
+        infoProvider.celestialBodies[index]['gravity'],
       ],
       [
         'lib/assets/planet icons/day icon.png',
         'Length of day(hours)',
-        infoProvider.celestialBodies![index]['lengthOfDay'],
+        infoProvider.celestialBodies[index]['lengthOfDay'],
       ],
       [
         'lib/assets/planet icons/planet diameter.png',
         'Total Diameter(km)',
-        infoProvider.celestialBodies![index]['diameter']
+        infoProvider.celestialBodies[index]['diameter']
       ],
       [
         'lib/assets/planet icons/no of moons icon.png',
         'Number of Moons',
-        infoProvider.celestialBodies![index]['moons'],
+        infoProvider.celestialBodies[index]['moons'],
       ],
       [
         'lib/assets/planet icons/distance from the sun.png',
         'Distance from the sun (10^6 km)',
-        infoProvider.celestialBodies![index]['distanceFromSun'],
+        infoProvider.celestialBodies[index]['distanceFromSun'],
       ],
       [
         'lib/assets/planet icons/temp icon.png',
         'Av.Temparature(celcius)',
-        infoProvider.celestialBodies![index]['avgTemperature']
+        infoProvider.celestialBodies[index]['avgTemperature']
       ],
     ];
 
@@ -88,7 +88,7 @@ class PlanetShowcase extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      if (infoProvider.celestialBodies?[index]['isFavorited'] ==
+                      if (infoProvider.celestialBodies[index]['isFavorited'] ==
                           true) {
                         infoProvider.removeFavourites(index);
                       } else {
@@ -107,7 +107,7 @@ class PlanetShowcase extends StatelessWidget {
                         maxRadius: 40,
                         minRadius: 30,
                         child: Icon(
-                          infoProvider.celestialBodies?[index]['isFavorited']
+                          infoProvider.celestialBodies[index]['isFavorited']
                               ? Icons.favorite
                               : Icons.favorite_outline,
                           size: 30,
@@ -124,7 +124,7 @@ class PlanetShowcase extends StatelessWidget {
                 radius: 90,
                 backgroundColor: Colors.transparent,
                 child: Image.asset(
-                  infoProvider.celestialBodies![index]['image'],
+                  infoProvider.celestialBodies[index]['image'],
                 )),
             GlobalVariables.spaceSmall(context),
 
@@ -134,7 +134,7 @@ class PlanetShowcase extends StatelessWidget {
                 children: [
                   GlobalVariables.spaceSmall(context),
                   Text(
-                    infoProvider.celestialBodies![index]['name'],
+                    infoProvider.celestialBodies[index]['name'],
                     style: FontStyles.headerLarge,
                   ),
                   GlobalVariables.spaceSmall(context),
@@ -189,9 +189,9 @@ class PlanetShowcase extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: Text(
-                      infoProvider.celestialBodies![index]['longDescription'],
-                      style: FontStyles.headerMedium
-                          .copyWith(fontWeight: FontWeight.normal),
+                      infoProvider.celestialBodies[index]['longDescription'],
+                      style: FontStyles.headerMedium.copyWith(
+                          fontWeight: FontWeight.normal, fontSize: 23),
                     ),
                   )
                 ],

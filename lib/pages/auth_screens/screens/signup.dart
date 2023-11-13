@@ -54,6 +54,7 @@ class _SignUpState extends State<SignUp> {
     }
 
     return MainScaffold(
+      notMainPage: true,
       child: Column(
         children: [
           GlobalVariables.spaceSmall(context),

@@ -7,52 +7,61 @@ Random random = Random();
 // Get a random index within the range of the celestialBodies list
 int randomIndex = random.nextInt(10);
 
-CelestialBodiesProvider cele = CelestialBodiesProvider();
-// Get the random celestial body using the random index
-Map randomCelestialBody = cele._celestialBodies[randomIndex];
+final Box _mybox = Hive.box('db');
+loadData() {
+  if (_mybox.isEmpty) {
+    return _mybox.put('HeavenlyBodies', [
+      sun,
+      mercury,
+      venus,
+      earth,
+      mars,
+      jupiter,
+      saturn,
+      uranus,
+      neptune,
+      pluto,
+    ]);
+  } else {
+    return _mybox.get('HeavenlyBodies');
+  } // Add this line
+}
+
+final List _celestialBodies = loadData();
+List<Map<dynamic, dynamic>> convertedList =
+    _celestialBodies.map((body) => body as Map<dynamic, dynamic>).toList();
 
 class CelestialBodiesProvider with ChangeNotifier {
-  final Box _mybox = Hive.box('myBox');
+  List<Map<dynamic, dynamic>> get celestialBodies => convertedList;
 
-  List _celestialBodies = [];
-
-  List? get celestialBodies => _celestialBodies;
-
-  CelestialBodiesProvider() {
-    loadData();
+  List<Map<dynamic, dynamic>> getFavorites() {
+    List<Map<dynamic, dynamic>> favorites = [];
+    for (var body in celestialBodies) {
+      if (body['isFavorited'] == true) {
+        favorites.add(body);
+      }
+    }
+    return favorites;
   }
-  void addFavourites(index) {
-    _celestialBodies[index]['isFavorited'] = true;
-    _mybox.put('CelestialBodies', _celestialBodies);
 
+  void addFavourites(index) {
+    celestialBodies[index]['isFavorited'] = true;
+    _mybox.put('HeavenlyBodies', celestialBodies);
     notifyListeners();
   }
 
   void removeFavourites(index) {
-    _celestialBodies[index]['isFavorited'] = false;
-    _mybox.put('CelestialBodies', _celestialBodies);
+    celestialBodies[index]['isFavorited'] = false;
+    _mybox.put('HeavenlyBodies', celestialBodies);
     notifyListeners();
   }
 
-  void loadData() {
-    if (_mybox.get('CelestialBodies').isEmpty) {
-      _celestialBodies = [
-        sun,
-        mercury,
-        venus,
-        earth,
-        mars,
-        jupiter,
-        saturn,
-        uranus,
-        neptune,
-        pluto,
-      ];
-    } else {
-      _celestialBodies = _mybox.get('CelestialBodies');
-    }
-  }
+// Get the random celestial body using the random index
 }
+
+CelestialBodiesProvider cele = CelestialBodiesProvider();
+int randomID = cele.celestialBodies[randomIndex]['id'];
+Map randomCelestialBody = cele.celestialBodies[randomID];
 
 String solarSystemInfo = """
 The solar system consists of the Sun and everything that orbits around it, including planets, dwarf planets, moons, asteroids, comets and meteoroids. At the center lies the Sun, a yellow main-sequence star that provides light, heat and energy to the rest of the solar system. Orbiting at an average distance of 150 million kilometers is the planet Mercury, the smallest and fastest planet, completing three rotations around the Sun every two years. Venus is the second planet and the hottest in the solar system due to its dense carbon dioxide atmosphere trapping heat. Earth, the third planet, is unique in harbouring life and liquid water on its surface. The Red Planet Mars has a thin atmosphere and two small moons - Phobos and Deimos. In the outer solar system lie the four gas and ice giants - Jupiter, Saturn, Uranus and Neptune. Jupiter is the largest planet, containing two and a half times the matter of all other planets combined. Its four largest moons Io, Europa, Ganymede and Callisto were discovered by Galileo Galilei in 1610. 
@@ -62,8 +71,14 @@ Beyond Neptune is the Kuiper Belt containing Pluto and other dwarf planets like 
 The solar system likely formed about 4.6 billion years ago from a giant rotating cloud of gas and dust known as the solar nebula. Gravity caused the nebula to collapse and matter to condense at the center forming the Sun. Conservation of angular momentum caused the flattened spinning disk of leftover material which eventually formed the orbiting planets. The solar system remains gravitationally bound to the Sun and continues to evolve over astronomically long timescales.
 """;
 
+String aboutTheApp =
+    '''Cosmic is an educational app focused on teaching users about the Sun and planets in our solar system. The app includes detailed information on the 10 main celestial bodies - the Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, and Pluto.
+The Sun section provides an overview of the Sun including details on its size,temperature and role as the center of the solar system, and how it produces energy through nuclear fusion. 
+Each planet section covers the planet's vital statistics like , size, distance from the sun, length of year, number of moons,mass,gravity and temperature. High-quality images showcase details like Jupiter's Great Red Spot, Saturn's rings, ice volcanoes on Pluto.
+  Overall, Cosmic provides an immersive and interactive way for users to explore and learn about the Sun, planets and other objects in our solar system. ''';
 // Sun
 Map sun = {
+  "id": 0,
   "name": "Sun",
   "moons": "0",
   "mass": "1988500",
@@ -81,6 +96,7 @@ Map sun = {
 
 // Mercury
 Map mercury = {
+  "id": 1,
   "name": "Mercury",
   "moons": "0",
   "mass": "0.330",
@@ -98,6 +114,7 @@ Map mercury = {
 
 // Venus
 Map venus = {
+  "id": 2,
   "name": "Venus",
   "moons": "0",
   "mass": "4.87",
@@ -116,6 +133,7 @@ Map venus = {
 
 // Earth
 Map earth = {
+  "id": 3,
   "name": "Earth",
   "moons": "1",
   "mass": "5.97",
@@ -133,6 +151,7 @@ Map earth = {
 
 // Mars
 Map mars = {
+  "id": 4,
   "name": "Mars",
   "moons": "2",
   "mass": "0.642",
@@ -151,6 +170,7 @@ Map mars = {
 
 // Jupiter
 Map jupiter = {
+  "id": 5,
   "name": "Jupiter",
   "moons": "79",
   "mass": "1898",
@@ -169,6 +189,7 @@ Map jupiter = {
 
 // Saturn
 Map saturn = {
+  "id": 6,
   "name": "Saturn",
   "moons": "82",
   "mass": "568",
@@ -187,6 +208,7 @@ Map saturn = {
 
 // Uranus
 Map uranus = {
+  "id": 7,
   "name": "Uranus",
   "moons": "27",
   "mass": "86.8",
@@ -205,6 +227,7 @@ Map uranus = {
 
 // Neptune
 Map neptune = {
+  "id": 8,
   "name": "Neptune",
   "moons": "14",
   "mass": "102",
@@ -223,6 +246,7 @@ Map neptune = {
 
 // Pluto
 Map pluto = {
+  "id": 9,
   "name": "Pluto",
   "moons": "5",
   "mass": "0.0146",
