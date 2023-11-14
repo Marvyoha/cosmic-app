@@ -40,7 +40,7 @@ dependencies:
   avatar_glow: ^2.0.2
   firebase_core: ^2.22.0
   firebase_auth: ^4.13.0
-  cloud_firestore: ^4.13.0
+  cloud_firestore:
   provider: ^6.1.0
   auto_size_text: ^3.0.0
   expandable_text: ^2.3.0

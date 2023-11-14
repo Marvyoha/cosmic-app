@@ -34,55 +34,50 @@ class _HomePageState extends State<HomePage> {
           ),
           // LIST OF PLANETS
           SizedBox(
-            width: double.infinity,
             height: 100,
-            child: Expanded(
-              child: Padding(
-                padding: GlobalVariables.normPadding,
-                child: ListView.builder(
-                  itemCount: infoProvider.celestialBodies.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    int id = infoProvider.celestialBodies[index]['id'];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => PlanetShowcase(
-                              index: id,
-                            ),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: AppColors.elevation.withOpacity(0.5)),
-                          child: Row(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Colors.transparent,
-                                child: Image.asset(
-                                    infoProvider.celestialBodies[id]['image']),
-                              ),
-                              GlobalVariables.spaceSmall(context,
-                                  isWidth: true),
-                              GlobalVariables.spaceSmall(context,
-                                  isWidth: true),
-                              Text(
-                                infoProvider.celestialBodies[id]['name'],
-                                style: FontStyles.headerSmall,
-                              )
-                            ],
+            child: Padding(
+              padding: GlobalVariables.normPadding,
+              child: ListView.builder(
+                itemCount: infoProvider.celestialBodies.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (BuildContext context, int index) {
+                  int id = infoProvider.celestialBodies[index]['id'];
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => PlanetShowcase(
+                            index: id,
                           ),
                         ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: AppColors.elevation.withOpacity(0.5)),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: Colors.transparent,
+                              child: Image.asset(
+                                  infoProvider.celestialBodies[id]['image']),
+                            ),
+                            GlobalVariables.spaceSmall(context, isWidth: true),
+                            GlobalVariables.spaceSmall(context, isWidth: true),
+                            Text(
+                              infoProvider.celestialBodies[id]['name'],
+                              style: FontStyles.headerSmall,
+                            )
+                          ],
+                        ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
             ),
           ),
