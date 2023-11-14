@@ -2,11 +2,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-Random random = Random();
-
-// Get a random index within the range of the celestialBodies list
-int randomIndex = random.nextInt(10);
-
 final Box _mybox = Hive.box('db');
 loadData() {
   if (_mybox.isEmpty) {
@@ -55,10 +50,14 @@ class CelestialBodiesProvider with ChangeNotifier {
     _mybox.put('HeavenlyBodies', celestialBodies);
     notifyListeners();
   }
-
-// Get the random celestial body using the random index
 }
 
+Random random = Random();
+
+// Get a random index within the range of the celestialBodies list
+int randomIndex = random.nextInt(10);
+
+// Get the random celestial body using the random index
 CelestialBodiesProvider cele = CelestialBodiesProvider();
 int randomID = cele.celestialBodies[randomIndex]['id'];
 Map randomCelestialBody = cele.celestialBodies[randomID];
@@ -76,6 +75,7 @@ String aboutTheApp =
 The Sun section provides an overview of the Sun including details on its size,temperature and role as the center of the solar system, and how it produces energy through nuclear fusion. 
 Each planet section covers the planet's vital statistics like , size, distance from the sun, length of year, number of moons,mass,gravity and temperature. High-quality images showcase details like Jupiter's Great Red Spot, Saturn's rings, ice volcanoes on Pluto.
   Overall, Cosmic provides an immersive and interactive way for users to explore and learn about the Sun, planets and other objects in our solar system. ''';
+
 // Sun
 Map sun = {
   "id": 0,
